@@ -9,6 +9,19 @@ USE_FFMPEG="${USE_FFMPEG:-ON}"
 DEFAULT_FFMPEG_DIR="$ROOT_DIR/build-ffmpeg-mingw-x64/prefix"
 SHIM_DIR="${SHIM_DIR:-$BUILD_DIR/mingw-include-shim}"
 
+copy_mingw_runtime_dll() {
+  local dll_name="$1"
+  local dll_path
+
+  dll_path="$(x86_64-w64-mingw32-g++ -print-file-name="$dll_name")"
+  if [[ -z "$dll_path" || "$dll_path" == "$dll_name" || ! -f "$dll_path" ]]; then
+    echo "Could not locate MinGW runtime DLL: $dll_name" >&2
+    exit 1
+  fi
+
+  cp -f "$dll_path" "$BUILD_DIR/"
+}
+
 if [[ "$USE_FFMPEG" != "OFF" && -z "${FFMPEG_DIR:-}" && -f "$DEFAULT_FFMPEG_DIR/include/libavcodec/avcodec.h" ]]; then
   FFMPEG_DIR="$DEFAULT_FFMPEG_DIR"
 fi
@@ -56,3 +69,7 @@ fi
 cmake "${CMAKE_ARGS[@]}" "$@"
 
 cmake --build "$BUILD_DIR" -j"$(nproc)"
+
+copy_mingw_runtime_dll "libstdc++-6.dll"
+copy_mingw_runtime_dll "libgcc_s_seh-1.dll"
+copy_mingw_runtime_dll "libwinpthread-1.dll"
