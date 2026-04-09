@@ -1,6 +1,8 @@
 #include "Common/CommonWindows.h"
 
+extern "C" {
 #include <hidsdi.h>
+}
 
 #include "HidCommon.h"
 

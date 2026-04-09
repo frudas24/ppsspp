@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <mmdeviceapi.h>
+#define INITGUID
 #include <functiondiscoverykeys_devpkey.h>
+#undef INITGUID
 #include <audioclient.h>
 #include <avrt.h>
 #include <comdef.h>

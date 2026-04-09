@@ -1,7 +1,9 @@
 // This file in particular along with its header is public domain, use it for whatever you want.
 
 #include <windows.h>
+extern "C" {
 #include <hidsdi.h>
+}
 #include <setupapi.h>
 #include <initguid.h>
 #include <vector>

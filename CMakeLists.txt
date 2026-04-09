@@ -1559,7 +1559,7 @@ else()
 endif()
 
 if(WIN32)
-	target_link_libraries(Common winmm dsound dxguid Version)
+	target_link_libraries(Common winmm dsound dxguid version)
 endif()
 
 if(NOT LIBRETRO)
