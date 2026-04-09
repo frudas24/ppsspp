@@ -1,0 +1,45 @@
+# Ignore git submodules and generated build artifacts by default in ripgrep searches.
+# Override with `rg --no-ignore ...` or `rg -uuu ...` when needed.
+
+# Common generated trees.
+/build/
+/build-*/
+/cmake-build-*/
+/.gradle/
+/android/.cxx/
+/android/build/
+/out/
+/dist/
+/bin/
+/obj/
+
+# Common generated files for CMake/Ninja builds.
+/compile_commands.json
+/CMakeCache.txt
+/cmake_install.cmake
+/build.ninja
+/.ninja_*
+
+SDL/macOS/
+assets/debugger/
+ext/OpenXR-SDK/
+ext/SPIRV-Cross/
+ext/aemu_postoffice/
+ext/armips/
+ext/cpu_features/
+ext/discord-rpc/
+ext/freetype/
+ext/glslang/
+ext/libadrenotools/
+ext/libchdr/
+ext/lua/
+ext/miniupnp/
+ext/naett/
+ext/nanosvg/
+ext/rapidjson/
+ext/rcheevos/
+ext/zstd/
+ffmpeg/
+ios/MoltenVK/
+libretro/libretro-common/
+pspautotests/
