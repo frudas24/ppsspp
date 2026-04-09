@@ -451,8 +451,10 @@ int convertSockoptNamePSP2Host(int optname, int level) {
 		switch (optname) {
 		case PSP_NET_INET_TCP_NODELAY:
 			return TCP_NODELAY;
+#if defined(TCP_MAXSEG)
 		case PSP_NET_INET_TCP_MAXSEG:
 			return TCP_MAXSEG;
+#endif
 		}
 	} else if (level == PSP_NET_INET_IPPROTO_IP) {
 		switch (optname) {
@@ -575,8 +577,10 @@ int convertSockoptNameHost2PSP(int optname, int level) {
 		switch (optname) {
 		case TCP_NODELAY:
 			return PSP_NET_INET_TCP_NODELAY;
+#if defined(TCP_MAXSEG)
 		case TCP_MAXSEG:
 			return PSP_NET_INET_TCP_MAXSEG;
+#endif
 		}
 	} else if (level == IPPROTO_IP) {
 		switch (optname) {

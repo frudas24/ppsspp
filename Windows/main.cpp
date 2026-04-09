@@ -62,7 +62,7 @@
 #include "Common/Log/ConsoleListener.h"
 #include "Common/StringUtils.h"
 
-#include "Commctrl.h"
+#include <commctrl.h>
 
 #include "UI/GameInfoCache.h"
 #include "Windows/resource.h"

@@ -399,10 +399,16 @@ int GenericListControl::HandleNotify(LPARAM lParam) {
 
 	if (mhdr->code == LVN_INCREMENTALSEARCH) {
 		NMLVFINDITEM *request = (NMLVFINDITEM *)lParam;
-		uint32_t supported = LVFI_WRAP | LVFI_STRING | LVFI_PARTIAL | LVFI_SUBSTRING;
+		uint32_t supported = LVFI_WRAP | LVFI_STRING | LVFI_PARTIAL;
+#ifdef LVFI_SUBSTRING
+		supported |= LVFI_SUBSTRING;
+#endif
 		if ((request->lvfi.flags & ~supported) == 0 && (request->lvfi.flags & LVFI_STRING) != 0) {
 			bool wrap = (request->lvfi.flags & LVFI_WRAP) != 0;
-			bool partial = (request->lvfi.flags & (LVFI_PARTIAL | LVFI_SUBSTRING)) != 0;
+			bool partial = (request->lvfi.flags & LVFI_PARTIAL) != 0;
+#ifdef LVFI_SUBSTRING
+			partial = partial || (request->lvfi.flags & LVFI_SUBSTRING) != 0;
+#endif
 
 			// It seems like 0 is always sent for start, let's override.
 			int startRow = request->iStart;

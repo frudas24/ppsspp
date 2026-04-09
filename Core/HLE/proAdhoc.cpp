@@ -2004,8 +2004,14 @@ int setSockBufferSize(int sock, int opt, int size) { // opt = SO_RCVBUF/SO_SNDBU
 }
 
 int setSockMSS(int sock, int size) {
+#if defined(TCP_MAXSEG)
 	int mss = size; // 1460;
 	return setsockopt(sock, IPPROTO_TCP, TCP_MAXSEG, (char*)&mss, sizeof(mss));
+#else
+	(void)sock;
+	(void)size;
+	return 0;
+#endif
 }
 
 int setSockTimeout(int sock, int opt, unsigned long timeout_usec) { // opt = SO_SNDTIMEO/SO_RCVTIMEO
@@ -2090,7 +2096,7 @@ int setUDPConnReset(int udpsock, bool enabled) {
 	return -1;
 }
 
-#if !defined(TCP_KEEPIDLE) && !PPSSPP_PLATFORM(SWITCH)
+#if !defined(TCP_KEEPIDLE) && !PPSSPP_PLATFORM(SWITCH) && defined(TCP_KEEPALIVE)
 #define TCP_KEEPIDLE	TCP_KEEPALIVE //TCP_KEEPIDLE on Linux is equivalent to TCP_KEEPALIVE on macOS
 #endif
 // VS 2017 compatibility
@@ -2110,12 +2116,18 @@ int setSockKeepAlive(int sock, bool keepalive, const int keepinvl, const int kee
 	if (result == 0 && keepalive) {
 		if (getsockopt(sock, SOL_SOCKET, SO_TYPE, (char*)&optval, (socklen_t*)&optlen) == 0 && optval == SOCK_STREAM) {
 			optlen = sizeof(optval);
+#if defined(TCP_KEEPIDLE)
 			optval = keepidle; //180 sec
-			setsockopt(sock, IPPROTO_TCP, TCP_KEEPIDLE, (char*)&optval, optlen);		
+			setsockopt(sock, IPPROTO_TCP, TCP_KEEPIDLE, (char*)&optval, optlen);
+#endif
+#if defined(TCP_KEEPINTVL)
 			optval = keepinvl; //60 sec
 			setsockopt(sock, IPPROTO_TCP, TCP_KEEPINTVL, (char*)&optval, optlen);
+#endif
+#if defined(TCP_KEEPCNT)
 			optval = keepcnt; //20
 			setsockopt(sock, IPPROTO_TCP, TCP_KEEPCNT, (char*)&optval, optlen);
+#endif
 		}
 	}
 #endif // !PPSSPP_PLATFORM(SWITCH) && !PPSSPP_PLATFORM(OPENBSD)

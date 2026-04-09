@@ -21,7 +21,6 @@
 
 #if !PPSSPP_PLATFORM(UWP)
 
-#ifndef __MINGW32__
 struct XINPUT_CAPABILITIES_EX {
 	XINPUT_CAPABILITIES Capabilities;
 	WORD VendorId;
@@ -30,7 +29,6 @@ struct XINPUT_CAPABILITIES_EX {
 	WORD  unk1;
 	DWORD unk2;
 };
-#endif
 
 typedef DWORD (WINAPI *XInputGetState_t) (DWORD dwUserIndex, XINPUT_STATE* pState);
 typedef DWORD (WINAPI *XInputSetState_t) (DWORD dwUserIndex, XINPUT_VIBRATION* pVibration);

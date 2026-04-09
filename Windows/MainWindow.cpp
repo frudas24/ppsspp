@@ -525,8 +525,10 @@ namespace MainWindow {
 
 		// SetWindowLong(hwndMain, GWL_EXSTYLE, WS_EX_APPWINDOW);
 
+#if defined(DWM_WINDOW_CORNER_PREFERENCE) && defined(DWMWA_WINDOW_CORNER_PREFERENCE) && defined(DWMWCP_DONOTROUND)
 		const DWM_WINDOW_CORNER_PREFERENCE pref = DWMWCP_DONOTROUND;
 		DwmSetWindowAttribute(hwndMain, DWMWA_WINDOW_CORNER_PREFERENCE, &pref, sizeof(pref));
+#endif
 		ApplyFullscreenState(hwndMain, g_Config.bFullScreen);
 
 		MainMenuInit(hwndMain, g_hMenu);
