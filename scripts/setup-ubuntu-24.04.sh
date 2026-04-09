@@ -59,6 +59,6 @@ Native Linux build:
 Windows x64 cross-build:
   cd "$ROOT_DIR"
   git submodule update --init --recursive
-  export FFMPEG_DIR=/path/to/mingw-ffmpeg-prefix
+  ./scripts/build-ffmpeg-mingw-x64.sh
   ./scripts/build-windows-cross.sh
 EOF

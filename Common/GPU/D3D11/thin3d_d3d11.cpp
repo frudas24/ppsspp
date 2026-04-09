@@ -189,8 +189,12 @@ public:
 			case D3D_FEATURE_LEVEL_12_0: return "Feature Level 12.0";
 			case D3D_FEATURE_LEVEL_12_1: return "Feature Level 12.1";
 #ifndef __LIBRETRO__
+#ifdef D3D_FEATURE_LEVEL_1_0_CORE
 			case D3D_FEATURE_LEVEL_1_0_CORE: return "Feature Level 1.0 Core";  // This is for compute-only devices. Useless for us.
+#endif
+#ifdef D3D_FEATURE_LEVEL_12_2
 			case D3D_FEATURE_LEVEL_12_2: return "Feature Level 12.2";
+#endif
 #endif
 			default: return "Feature Level X.X";
 			}

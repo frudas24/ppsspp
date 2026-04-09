@@ -2736,15 +2736,19 @@ setup_target_project(${CoreLibName} Core)
 add_custom_target(GitVersion DEPENDS something_that_never_exists)
 
 set(WIN_VERSION_CMD "")
-if (WIN32)
+set(WIN_VERSION_CMAKE_ARGS "")
+if (WIN32 AND CMAKE_HOST_WIN32)
 	set(WIN_VERSION_CMD COMMAND ${CMAKE_SOURCE_DIR}/Windows/git-version-gen.cmd PPSSPPWindows)
+elseif(WIN32)
+	set(WIN_VERSION_CMAKE_ARGS -DGENERATE_WIN_VERSION=1)
 endif()
 
 add_custom_command(OUTPUT something_that_never_exists
 	COMMAND ${CMAKE_COMMAND} -DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
 		-DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}
+		${WIN_VERSION_CMAKE_ARGS}
 		-P ${CMAKE_CURRENT_SOURCE_DIR}/git-version.cmake
-	${WIN_VERSION_CMD})
+		${WIN_VERSION_CMD})
 
 set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/git-version.cpp
 	PROPERTIES GENERATED TRUE
